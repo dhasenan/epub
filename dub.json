@@ -3,5 +3,6 @@
 	"description": "An epub generator",
 	"copyright": "Copyright © 2017, dhasenan",
 	"authors": ["dhasenan"],
-  "stringImportPaths": ["source"]
+  "stringImportPaths": ["source"],
+	"license": "Ms-PL"
 }

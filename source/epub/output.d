@@ -26,7 +26,7 @@ void toEpub(Book book, ZipArchive zf) {
     if (book.id == null) {
         book.id = randomUUID().to!string;
     }
-    foreach (i, c; book.chapters) {
+    foreach (i, ref c; book.chapters) {
         c.index = cast(int)i + 1;
     }
     foreach (ref attachment; book.attachments) {
