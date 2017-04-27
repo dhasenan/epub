@@ -48,7 +48,7 @@ struct Attachment {
     string mimeType;
 
     /// The file contents.
-    const(ubyte[]) data;
+    const(ubyte[]) content;
 }
 
 /**

@@ -47,7 +47,7 @@ void toEpub(Book book, ZipArchive zf) {
         save(zf, chapter.filename, chapter.content);
     }
     foreach (attachment; book.attachments) {
-        save(zf, attachment.filename, attachment.data);
+        save(zf, attachment.filename, attachment.content);
     }
 }
 
