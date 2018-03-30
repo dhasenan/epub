@@ -67,7 +67,7 @@ struct Chapter {
     bool showInTOC;
 
     /// The contents of this chapter.
-    const(char[]) content;
+    const(char)[] content;
 
     package int index;
 

@@ -97,7 +97,6 @@ string contentOpf(Book book) {
         s ~= `" media-type="application/xhtml+xml"/>`;
     }
     s ~= `
-        <item href="subtex.css" id="subtexcss" media-type="text/css"/>
         <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
         <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
     </manifest>
@@ -195,7 +194,6 @@ void htmlPrelude(OutRange)(const Book book, ref OutRange sink, bool includeStyle
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <link rel="stylesheet" href="subtex.css" type="text/css"/>
             `);
     if (includeStylesheets && "stylesheet" in book.info) {
         foreach (stylesheet; book.info["stylesheet"]) {
