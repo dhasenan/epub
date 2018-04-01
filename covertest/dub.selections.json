@@ -1,0 +1,12 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"cairod": "0.0.1-alpha.3+1.10.2",
+		"derelict-ft": "1.0.2",
+		"derelict-util": "2.1.0",
+		"epub": {"path":".."},
+		"gtk-d": "3.7.5",
+		"windows-headers": "1.0.1",
+		"x11": "1.0.20"
+	}
+}

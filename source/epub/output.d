@@ -1,5 +1,7 @@
 module epub.output;
 
+@safe:
+
 import epub.books;
 
 import std.algorithm;
@@ -13,24 +15,31 @@ import std.zip;
 /**
  * Convert the given book to epub and save it to the given path.
  */
-void toEpub(Book book, string path) {
-    auto zf =  new ZipArchive();
+void toEpub(Book book, string path) @trusted
+{
+    auto zf = new ZipArchive();
     toEpub(book, zf);
+    // @safe function toEpub can't call @system function ZipArchive.build
     path.write(zf.build());
 }
 
 /**
  * Convert the given book to epub. Store it in the given zip archive.
  */
-void toEpub(Book book, ZipArchive zf) {
-    if (book.id == null) {
+void toEpub(Book book, ZipArchive zf)
+{
+    if (book.id == null)
+    {
         book.id = randomUUID().to!string;
     }
-    foreach (i, ref c; book.chapters) {
+    foreach (i, ref c; book.chapters)
+    {
         c.index = cast(int)i + 1;
     }
-    foreach (ref attachment; book.attachments) {
-        if (attachment.fileid == null) {
+    foreach (ref attachment; book.attachments)
+    {
+        if (attachment.fileid == null)
+        {
             attachment.fileid = randomUUID().to!string;
         }
     }
@@ -43,10 +52,12 @@ void toEpub(Book book, ZipArchive zf) {
     save(zf, "META-INF/container.xml", container_xml);
     writeZip!contentOpf(zf, "content.opf", book);
     writeZip!tocNcx(zf, "toc.ncx", book);
-    foreach (chapter; book.chapters) {
+    foreach (chapter; book.chapters)
+    {
         save(zf, chapter.filename, chapter.content);
     }
-    foreach (attachment; book.attachments) {
+    foreach (attachment; book.attachments)
+    {
         save(zf, attachment.filename, attachment.content);
     }
 }
@@ -55,11 +66,13 @@ private:
 
 enum container_xml = import("container.xml");
 
-void save(ZipArchive zf, string name, const char[] content) {
+void save(ZipArchive zf, string name, const char[] content)
+{
     save(zf, name, cast(const(ubyte[]))content);
 }
 
-void save(ZipArchive zf, string name, const(ubyte[]) content) {
+void save(ZipArchive zf, string name, const(ubyte[]) content) @trusted
+{
     auto member = new ArchiveMember();
     member.name = name;
     // std.zip isn't const-friendly
@@ -67,11 +80,13 @@ void save(ZipArchive zf, string name, const(ubyte[]) content) {
     zf.addMember(member);
 }
 
-void writeZip(alias method)(ZipArchive zf, string name, Book book) {
+void writeZip(alias method)(ZipArchive zf, string name, Book book)
+{
     save(zf, name, method(book));
 }
 
-string contentOpf(Book book) {
+string contentOpf(Book book)
+{
     Appender!string s;
     s.reserve(2000);
     s ~= `<?xml version='1.0' encoding='utf-8'?>
@@ -88,7 +103,8 @@ string contentOpf(Book book) {
     s ~= `</dc:identifier>
         </metadata>
         <manifest>`;
-    foreach (chapter; book.chapters) {
+    foreach (chapter; book.chapters)
+    {
         s ~= `
             <item href="`;
         s ~= chapter.filename;
@@ -102,7 +118,8 @@ string contentOpf(Book book) {
     </manifest>
     <spine toc="ncx">
         <itemref idref="titlepage"/>`;
-    foreach (chapter; book.chapters) {
+    foreach (chapter; book.chapters)
+    {
         s ~= `
             <itemref idref="`;
         s ~= chapter.fileid;
@@ -111,9 +128,11 @@ string contentOpf(Book book) {
     s ~= `
     </spine>
     <guide>`;
-    if (book.coverid) {
+    if (book.coverid)
+    {
         auto coverRange = book.attachments.find!(x => x.fileid == book.coverid);
-        if (!coverRange.empty) {
+        if (!coverRange.empty)
+        {
             auto cover = coverRange.front;
             s ~= `
         <reference href="`;
@@ -128,7 +147,8 @@ string contentOpf(Book book) {
     return s.data;
 }
 
-string tocNcx(Book book) {
+string tocNcx(Book book)
+{
     Appender!string s;
     s.reserve(1000);
     s ~= `<?xml version='1.0' encoding='utf-8'?>
@@ -148,7 +168,8 @@ string tocNcx(Book book) {
     s ~= `</text>
         </docTitle>
         <navMap>`;
-    foreach (i, chapter; book.chapters) {
+    foreach (i, chapter; book.chapters)
+    {
         s ~= `
             <navPoint id="ch`;
         s ~= chapter.id.replace("-", "");
@@ -171,32 +192,17 @@ string tocNcx(Book book) {
     return s.data;
 }
 
-string cover(Book book) {
-    Appender!string s;
-    s.reserve(1000);
-    s ~= `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-        <svg width="350" height="475">
-        <rect x="10" y="10" width="330" height="455" stroke="black" stroke-width="3" fill="#cceeff" stroke-linecap="round"/>
-        <text text-anchor="middle" x="175" y="75" font-size="30" font-weight="600" font-family="serif"
-        stroke-width="2" stroke-opacity="0.5" stroke="#000000" fill="#000000">`;
-    s ~= book.title;
-    s ~= `</text>
-        <text text-anchor="middle" x="175" y="135" font-size="15">`;
-    s ~= book.author;
-    s ~= `</text>
-        </svg>
-        `;
-    return s.data;
-}
-
-void htmlPrelude(OutRange)(const Book book, ref OutRange sink, bool includeStylesheets, void delegate(ref OutRange) bdy) {
+void htmlPrelude(OutRange)(const Book book, ref OutRange sink, bool includeStylesheets, void delegate(ref OutRange) bdy)
+{
     sink.put(`<?xml version='1.0' encoding='utf-8'?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             `);
-    if (includeStylesheets && "stylesheet" in book.info) {
-        foreach (stylesheet; book.info["stylesheet"]) {
+    if (includeStylesheets && "stylesheet" in book.info)
+    {
+        foreach (stylesheet; book.info["stylesheet"])
+        {
             sink.put(`<link rel="stylesheet" href="`);
             sink.put(stylesheet);
             sink.put(`" type="text"/>

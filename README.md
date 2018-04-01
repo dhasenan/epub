@@ -4,7 +4,7 @@ This is a little library to create ebooks in epub format in D.
 
 ## Getting it
 
-Add `"epub": "~>1.0.0"` to your dub.json.
+Add `"epub": "~>1.0.1"` to your dub.json.
 
 ## Using it
 
