@@ -6,7 +6,11 @@ void main()
     b.id = "somebook";
     b.title = "Must Go Faster";
     b.author = "Neia Neutuladh";
-    b.generator = "covertest";
-    b.renderPngCover("cover.png");
-    b.renderSvgCover("cover.svg");
+    Cover cover = {
+        generator: "covertest",
+        book: b,
+        fontPreferences: ["Droid Sans Mono", "Inconsolata"]
+    };
+    cover.renderPngCover("cover.png");
+    cover.renderSvgCover("cover.svg");
 }

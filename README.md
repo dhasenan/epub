@@ -45,6 +45,33 @@ If you don't want to emit directly to a file, you can call `toEpub` with a ZipAr
 instead of a filename.
 
 
-## Bugs?
+## Cover images
 
-Please file any issues at https://github.com/dhasenan/epub/issues !
+If you link gtk-d (for libcairo), you can generate a cover.
+
+First, create a `Cover` object:
+
+```D
+import epub.cover;
+Cover cover = {
+    book: myAwesomeBook,
+    generator: "lovely-epub-gen-2.0.7",
+    width: 1600,
+    height: 2560,
+    fontPreferences: ["Brioso Pro", "Garamond"],
+    format: Cover.Format.png
+};
+```
+
+Then render it:
+
+```D
+book.coverImage = cover.render;
+```
+
+
+## License
+
+This project is licensed under the Microsoft Public License. If you wish to include this in a
+project you are working on and its license is incompatible, please file an issue detailing your
+project and what license you need.

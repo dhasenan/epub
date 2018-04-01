@@ -9,6 +9,7 @@
   "dependencies": {
     "epub": {
       "path": ".."
-    }
+    },
+    "gtk-d": "~3.7.5"
   }
 }

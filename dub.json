@@ -4,8 +4,5 @@
 	"copyright": "Copyright © 2017, dhasenan",
 	"authors": ["dhasenan"],
   "stringImportPaths": ["source"],
-  "dependencies": {
-    "gtk-d": "~>3.7.3"
-  },
-	"license": "Ms-PL"
+	"license": "MS-PL"
 }
