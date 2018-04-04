@@ -13,4 +13,5 @@ void main()
     };
     cover.renderPngCover("cover.png");
     cover.renderSvgCover("cover.svg");
+    b.coverImage = cover.render;
 }

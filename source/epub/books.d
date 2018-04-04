@@ -33,26 +33,6 @@ class Book
 
     /// The attachment to use as a cover image.
     Attachment coverImage;
-
-    /**
-     * Preferred fonts for the book's cover.
-     *
-     * These should be ordered by priority: the first option will be used if possible, falling back
-     * to the second, falling back to the third, etc.
-     *
-     * The last resort is hard-coded as Sans.
-     */
-    string[] coverFontPreferences;
-
-    /**
-     * Target size for generated covers.
-     *
-     * The defaults are taken from Kindle Direct Publishing's recommendations.
-     */
-    uint width = 1600, height = 2560;
-
-    /** The name of the program that generated this ebook. */
-    string generator;
 }
 
 /**
@@ -73,7 +53,7 @@ struct Attachment
     string mimeType;
 
     /// The file contents.
-    const(ubyte[]) content;
+    const(ubyte)[] content;
 }
 
 /**

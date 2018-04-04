@@ -4,5 +4,6 @@
 	"copyright": "Copyright © 2017, dhasenan",
 	"authors": ["dhasenan"],
   "stringImportPaths": ["source"],
-	"license": "MS-PL"
+	"license": "MS-PL",
+  "targetType": "staticLibrary"
 }
