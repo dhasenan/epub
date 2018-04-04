@@ -1,9 +1,9 @@
 {
-	"name": "epub",
-	"description": "An epub generator",
-	"copyright": "Copyright © 2017, dhasenan",
-	"authors": ["dhasenan"],
+  "name": "epub",
+  "description": "An epub generator",
+  "copyright": "Copyright © 2017, dhasenan",
+  "authors": ["dhasenan"],
   "stringImportPaths": ["source"],
-	"license": "MS-PL",
-  "targetType": "staticLibrary"
+  "license": "MS-PL",
+  "targetType": "sourceLibrary"
 }
