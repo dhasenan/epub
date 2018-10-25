@@ -5,5 +5,5 @@
   "authors": ["dhasenan"],
   "stringImportPaths": ["source"],
   "license": "MS-PL",
-  "targetType": "sourceLibrary"
+  "targetType": "library"
 }

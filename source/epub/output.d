@@ -93,7 +93,9 @@ string contentOpf(Book book)
         <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
         <metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:language>en</dc:language>
-        <dc:creator>Unknown</dc:creator>
+        <dc:creator>`;
+    s ~= book.author.length ? book.author : "Unknown";
+    s ~= `</dc:creator>
         <dc:title>`;
     s ~= book.title;
     s ~= `</dc:title>
@@ -111,6 +113,17 @@ string contentOpf(Book book)
         s ~= `" id="`;
         s ~= chapter.fileid;
         s ~= `" media-type="application/xhtml+xml"/>`;
+    }
+    foreach (attach; book.attachments)
+    {
+        s ~= `
+            <item href="`;
+        s ~= attach.filename;
+        s ~= `" id="`;
+        s ~= attach.fileid;
+        s ~= `" media-type="`;
+        s ~= attach.mimeType;
+        s ~= `"/>`;
     }
     s ~= `
         <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
