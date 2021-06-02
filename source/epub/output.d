@@ -3,6 +3,7 @@ module epub.output;
 @safe:
 
 import epub.books;
+import epub.cover;
 
 import std.algorithm;
 import std.array;
@@ -31,6 +32,10 @@ void toEpub(Book book, ZipArchive zf)
     if (book.id == null)
     {
         book.id = randomUUID().to!string;
+    }
+    if (book.cover !is Cover.init)
+    {
+        addTitlePage(book);
     }
     foreach (i, ref c; book.chapters)
     {
@@ -127,10 +132,8 @@ string contentOpf(Book book)
     }
     s ~= `
         <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
-        <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
     </manifest>
-    <spine toc="ncx">
-        <itemref idref="titlepage"/>`;
+    <spine toc="ncx">`;
     foreach (chapter; book.chapters)
     {
         s ~= `

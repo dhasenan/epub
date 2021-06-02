@@ -33,6 +33,11 @@ class Book
 
     /// The attachment to use as a cover image.
     Attachment coverImage;
+
+    import epub.cover;
+
+    /// The cover page to generate. If not set, no cover page is generated.
+    Cover cover;
 }
 
 /**
